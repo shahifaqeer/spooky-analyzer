@@ -82,7 +82,7 @@ def load_and_remove_errors():
     df = df_all[ df_all["ipids"].notnull() ]
 
     # save both sets in const.DATAPATH
-    df_nulls[["sIP", "gIP", "country"]].to_csv("cond_er_redo")
+    df_nulls[["sIP", "gIP", "country"]].to_csv(const.DATAPATH + "cond_er_redo")
     df_nulls.to_pickle(const.DATAPATH + "sanitize/null_ipid_cond_er_redo.pkl")
     df.to_csv(const.DATAPATH + "cond_pass_basic_"+const.fdate, sep="|")
     df.to_pickle( const.DATAPATH + "sanitize/phase1_ipid_nonnull_"+const.fdate+".pkl")

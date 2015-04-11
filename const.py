@@ -1,0 +1,5 @@
+DATAPATH = "data/"
+fname = "ALL_APR7"
+fdate = "Apr7"
+SPLITFOLDER = DATAPATH + "splits_"+fdate+"/"
+DETECTFOLDER = DATAPATH + "detects_"+fdate+"/"
