@@ -7,12 +7,21 @@ import logging
 from collections import defaultdict
 
 
+# Global filename and date
+fname = "ALL_APR7"
+fdate = "Apr7"
+
+# Global Path for DATA (Unix convention only)
+DATAPATH = "data/"
+print "NOTE: MAKE SURE THAT ALL DATA FILES ARE IN " + DATAPATH
+if not os.path.exists(DATAPATH):
+    os.makedirs(DATAPATH)
+
 ##########################################################
 
 # UTILITY FUNCTIONS
-f = open(os.devnull, 'w')
 
-gi1 = GeoIP.open("GeoIPCity.dat",GeoIP.GEOIP_STANDARD)
+gi1 = GeoIP.open(DATAPATH + "GeoIPCity.dat",GeoIP.GEOIP_STANDARD)
 logging.basicConfig(format='%(asctime)s %(message)s',
                             datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger('myLogger')
@@ -54,14 +63,15 @@ def count_not_none(some_list):
 
 # MAIN FUNCTIONS
 
-def load_and_remove_errors(filename="ALL_APR7"):
+def load_and_remove_errors():
     """
     Load raw df;
     Add countries;
     remove null entries in ipids;
     Save
     """
-    fname=filename
+    fname=DATAPATH + filename
+    print "Find file in "+fname
     temp = "gIP,sIP,port,ipids,diff_list,ts,k1,k2,retransmit_times,NotGlobal,NotEnough,NotEnoughRetrans, date"
     header_row = temp.split(",")
     df_all = pd.read_csv(fname,delimiter="|", names=header_row)
@@ -69,31 +79,35 @@ def load_and_remove_errors(filename="ALL_APR7"):
     # Add countries
     df_all["country"] = df_all["gIP"].apply(lambda x: get_country(x))
 
-    if not os.path.exists("sanitize"):
-        os.makedirs("sanitize")
+    if not os.path.exists(DATAPATH + "sanitize"):
+        os.makedirs(DATAPATH + "sanitize")
 
-    # save those for which ipids was not recorded
+    # ipid nulls and nonnulls sets
     df_nulls = df_all[ df_all["ipids"].isnull() ]
-    df_nulls[["sIP", "gIP", "country"]].to_csv("cond_er_redo")
-    df_nulls.to_pickle("sanitize/null_ipid_cond_er_redo.pkl")
-
     df = df_all[ df_all["ipids"].notnull() ]
-    df.to_csv("cond_pass_basic_Apr7", sep="|")
-    df.to_pickle("sanitize/phase1_ipid_nonnull.pkl")
+
+    # save both sets in DATAPATH
+    df_nulls[["sIP", "gIP", "country"]].to_csv("cond_er_redo")
+    df_nulls.to_pickle(DATAPATH + "sanitize/null_ipid_cond_er_redo.pkl")
+    df.to_csv(DATAPATH + "cond_pass_basic_"+fdate, sep="|")
+    df.to_pickle( DATAPATH + "sanitize/phase1_ipid_nonnull_"+fdate+".pkl")
 
     return df
 
-def sanitize_converge_data(filename="cond_pass_basic_Apr7"):
+def sanitize_converge_data(filename="cond_pass_basic"+fdate):
     """
-    Load cond_pass_basic_Apr7;
+    Load cond_pass_basic_$(fdate);
     Convert types by splitting;
     Add subcategories;
     Save
     """
 
-    sIP_server = pd.read_csv("Servers_IMC.txt")
+    try:
+        sIP_server = pd.read_csv(DATAPATH + "Servers_IMC.txt")
+    except:
+        print "Please put Servers_IMC.txt in " + DATAPATH
 
-    fname= filename
+    fname = DATAPATH + filename
     convert_dic2 = {"k1":float, "k2": float}
 
     # read csv and convert columns
@@ -108,6 +122,8 @@ def sanitize_converge_data(filename="cond_pass_basic_Apr7"):
 
     # get country and first value in "ts"
     df_conv["first_ts"] = df_conv["ts"].apply(lambda x: x[0])
+
+    # if country was not added earlier...
     if "country" not in df_conv.columns:
         df_conv["country"] = df_conv["gIP"].apply(lambda x: get_country(x))
 
@@ -119,58 +135,39 @@ def sanitize_converge_data(filename="cond_pass_basic_Apr7"):
     # merge with server, subcat list
     df2 = df_conv.merge(sIP_server, on='sIP', how='outer')
 
-    df2.to_pickle("sanitize/full_merged_ipid_sanitized.pkl")
+    # SAVE TO DATAPATH
+    df2.to_pickle(DATAPATH + "sanitize/full_merged_ipid_sanitized"+fdate+".pkl")
     return df2
 
 def sanitize_semi_finalize(df2):
 
     df_redo = df2[ (df2["diff_p1"]<10) | (df2["diff_p2"]<10) ]
-    df_redo[["sIP", "gIP", "country", "domain", "subcat", "diff_p1", "diff_p2"]].to_csv("low_ipid_er_redo")
-    df_redo.to_pickle("sanitize/low_ipid_er_redo.pkl")
+
+    # SAVE sets to redo due to low ipid in DATAPATH
+    df_redo[["sIP", "gIP", "country", "domain", "subcat", "diff_p1", "diff_p2"]].to_csv(DATAPATH + "low_ipid_er_redo_"+fdate)
+    df_redo.to_pickle(DATAPATH + "sanitize/low_ipid_er_redo"+fdate+".pkl")
 
     # semi-finalized
     df = df2[ ~ ( (df2["diff_p1"]<10) | (df2["diff_p2"]<10) ) ]
-    df.to_pickle("sanitize/final_ts60_ipid_sanitized.pkl")
+
+    # SAVE TO DATAPATH
+    df.to_pickle(DATAPATH + "sanitize/final_ts60_ipid_sanitized_"+fdate+".pkl")
     df[["gIP", "sIP", "port", "ipids", "ts", "k1", "k2", "country",
-        "domain", "subcat", "diff_list", "retransmit_times"]].to_csv("sanitized_Apr7")
+        "domain", "subcat", "diff_list", "retransmit_times"]].to_csv( DATAPATH + "ready_for_R_"+fdate)
     return df
 
 ###################################################################################################
-# READY FOR R: SPLIT INTO 1000 steps
-##################################################################################################
-
-def dataframe_splitter(df3, STEP=1000):
-    if not os.path.exists("splits"):
-        os.makedirs("splits")
-    part = 0
-    for split_start in xrange(0, len(df3), STEP):
-        print part, split_start, split_start + STEP
-
-        # To save ALL columns
-        df_new = df3.ix[split_start: split_start + STEP, :]
-
-        # To save only 4 columns not all?
-        #df_new = df3.ix[split_start: split_start + STEP, ["gIP", "sIP", "diff_list", "ts"]]
-
-        df_new.to_pickle("splits/ready_for_R_"+str(part)+".pkl")
-        part += 1
-    logger.debug("DONE SPLITTING")
-    return
-
 
 def sanitize(fname):
-    if fname=="ALL_APR7":
-        fdate = "Apr7"
-        df1 = load_and_remove_errors(fname)
-        df2 = sanitize_converge_data('cond_pass_basic_'+fdate)
-        df3 = sanitize_semi_finalize(df2)
-    logger.debug("DONE SANITIZING")
+    df1 = load_and_remove_errors(fname)
+    df2 = sanitize_converge_data('cond_pass_basic_'+fdate)
+    df3 = sanitize_semi_finalize(df2)
+    logger.debug("DONE SANITIZING: Save csv to "+DATAPATH+"ready_for_R_"+fdate)
     return df3
 
 
 if __name__ == "__main__":
-    df3 = sanitize("ALL_APR7")
-    dataframe_splitter(df3)
+    #df3 = sanitize(fname)
     pass
 
 #temp = df2[["sIP", "gIP", "country", "domain", "subcat", "diff_p1", "diff_p2"]].groupby('country').count()
