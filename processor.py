@@ -7,22 +7,16 @@ from caseDetection import *
 import logging
 from collections import defaultdict
 
+import const
 
 ##########################################################
 
-# Global file date (same as sanitized)
-fdate = "Apr7"
-
-# Global Path for DATA (Unix convention only)
-DATAPATH = "data/"
-if not os.path.exists(DATAPATH):
-    os.makedirs(DATAPATH)
 
 # UTILITY FUNCTIONS
 f = open(os.devnull, 'w')
 #f2 = open("case_detector.log", 'a+')
 
-gi1 = GeoIP.open(DATAPATH + "GeoIPCity.dat", GeoIP.GEOIP_STANDARD)
+gi1 = GeoIP.open(const.DATAPATH + "GeoIPCity.dat", GeoIP.GEOIP_STANDARD)
 
 mp.log_to_stderr()
 logger = mp.get_logger()
@@ -46,13 +40,13 @@ def get_country(ip):
 ##################################################################################################
 
 # Loader
-def load_dataframe(fname):
+def load_dataframe(filename):
     """ input: filename like ready_for_R csv"""
 
-    if os.file.exists(DATAPATH+fname):
-        return pd.read_csv(DATAPATH+fname)
+    if os.path.isfile(const.DATAPATH + filename):
+        return pd.read_csv( const.DATAPATH + filename)
     else:
-        logger.error("NO SANITIZED CSV: "+DATAPATH+fname)
+        logger.error("NO SANITIZED CSV: "+ const.DATAPATH + filename)
     return
 
 
@@ -65,8 +59,9 @@ def dataframe_splitter(df3, STEP=1000):
     output: splits of STEP=1000 by default
     """
 
-    if not os.path.exists(DATAPATH + "splits"):
-        os.makedirs(DATAPATH + "splits")
+    if not os.path.exists(const.SPLITFOLDER):
+        os.makedirs(const.SPLITFOLDER)
+
     part = 0
     for split_start in xrange(0, len(df3), STEP):
         print part, split_start, split_start + STEP
@@ -77,7 +72,7 @@ def dataframe_splitter(df3, STEP=1000):
         # To save only 4 columns not all?
         #df_new = df3.ix[split_start: split_start + STEP, ["gIP", "sIP", "diff_list", "ts"]]
 
-        df_new.to_pickle(DATAPATH+"splits/ready_for_R_"+str(part)+".pkl")
+        df_new.to_pickle(const.SPLITFOLDER + "ready_for_R_"+str(part)+".pkl")
         part += 1
     logger.debug("DONE SPLITTING")
     return
@@ -105,13 +100,12 @@ def get_each_case(df, OUTNULL=False):
 def mp_case_detection_per_df(files):
     """ wrapper function for get_each_case() to load and save individual case detected"""
 
-    #sys.stdout = f2
     part = files.split("_")[-1].strip(".pkl")
-    logger.debug("LOAD " + files)
+    print "LOAD " + files
     df = pd.read_pickle(files)
     df_out = get_each_case(df, True)
-    logger.debug("DONE " + part)
-    df_out.to_pickle(DATAPATH+"detected/"+"case_detected_"+part+".pkl")
+    print "DONE + SAVE " + part
+    df_out.to_pickle(const.DETECTFOLDER+"case_detected_"+part+".pkl")
 
     # delete df otherwise becomes super slow
     del df, df_out
@@ -121,26 +115,21 @@ def parallel_case_detection():
     """ CREATE CPU-2 parallel processes to handle
     1000 entry databases """
 
-    # Aggressive: all cores
-    #jobs = []
-
-    #for files in glob.glob("splits/*.pkl")[:25]:
-        #p = mp.Process(target = mp_case_detection_per_df, args=(files, ))
-        #jobs.append(p)
-        #p.start()
-
     # DATAPATH to save detected output
-    if not os.path.exists(DATAPATH  + "detected"):
-        os.makedirs(DATAPATH + "detected")
+    if not os.path.exists(const.DETECTFOLDER):
+        os.makedirs(const.DETECTFOLDER)
+        print "make "+const.DETECTFOLDER
 
     # use Pool instead of Process to limit num of cores in async jobs
     CORES = mp.cpu_count()-2    #avoid lockdown
     pool = mp.Pool(processes=CORES)
+    print "start pool of "+ str(CORES) +" cores"
 
     # TESTING - 25 files took about 5 mins with 6 cores on my machine
+    print "detecting files in " + const.SPLITFOLDER
+    for files in glob.glob(const.SPLITFOLDER + "*.pkl"):
     # Takes 1 - 1.5 hours on 6 cores for 230 files, 230,000 entries
-    for files in glob.glob(DATAPATH+"splits/*.pkl"):
-        # not aggressive, use only CORES
+        print files
         pool.apply_async(mp_case_detection_per_df, args=(files, ))
 
     pool.close()
@@ -153,14 +142,14 @@ def single_threaded():
 
     print "THIS WILL FUCK UP THE CPU"
 
-    for files in glob.glob("splits/*"):
+    for files in glob.glob(const.SPLITFOLDER + "*"):
     #for files in glob.glob("splits/*")[3:6]:
         part = files.split("_")[-1]
         logger.debug(files)
         df = pd.read_pickle(files)
         df_out = get_each_case(df, True)
         logger.debug("DONE " + part)
-        df_out.to_pickle(DATAPATH+"detected/"+"case_detected_"+part+".pkl")
+        df_out.to_pickle(const.DETECTFOLDER+"case_detected_"+part+".pkl")
         del df, df_out
     return
 
@@ -169,7 +158,7 @@ def single_threaded():
 
 def join_case_with_data():
     full_df = []
-    for files in glob.glob(DATAPATH+"splits/*.pkl"):
+    for files in glob.glob(const.SPLITFOLDER + "*.pkl"):
         part = files.split("_")[-1].strip(".pkl")
 
         # original: no case detection
@@ -177,7 +166,7 @@ def join_case_with_data():
 
         # load case detected parts, join to original, concat into a complete dataframe
         try:
-            df2 = pd.read_pickle(DATAPATH+"detected/"+"case_detected_"+part+".pkl")
+            df2 = pd.read_pickle(const.DETECTFOLDER +"case_detected_"+part+".pkl")
             full_df.append( df1.join(df2) )
             del df2
         except:
@@ -186,17 +175,21 @@ def join_case_with_data():
     df_full = pd.concat(full_df)
 
     # SAVE TO DATAPATH
-    df_full.to_pickle(DATAPATH+"case_detected_all_"+fdate+".pkl")
-    df_full.to_csv(DATAPATH+"case_detected_all_"+fdate)
+    df_full.to_pickle(const.DATAPATH+"case_detected_all_"+const.fdate+".pkl")
+    df_full.to_csv(const.DATAPATH+"case_detected_all_"+const.fdate)
 
     return df_full
 
 #############################################################
 
 if __name__ == "__main__":
-    pass
+    #pass
 
-    #load_dataframe(fname)
-    #dataframe_splitter(df3, STEP=1000):
-    #parallel_case_detection()
-    #join_case_with_data()
+    fname = "ready_for_R_" + const.fdate
+    df3 = load_dataframe(fname)
+
+    dataframe_splitter(df3, STEP=1000)
+    del df3
+
+    parallel_case_detection()
+    join_case_with_data()
