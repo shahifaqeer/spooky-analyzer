@@ -17,7 +17,7 @@ import sanitizer
 f = open(os.devnull, 'w')
 #f2 = open("case_detector.log", 'a+')
 
-gi1 = GeoIP.open(const.DATAPATH + "GeoIPCity.dat", GeoIP.GEOIP_STANDARD)
+gi1 = GeoIP.open(const.CONSTDATAPATH + "GeoIPCity.dat", GeoIP.GEOIP_STANDARD)
 
 mp.log_to_stderr()
 logger = mp.get_logger()

@@ -14,7 +14,7 @@ import const
 
 # UTILITY FUNCTIONS
 
-gi1 = GeoIP.open(const.DATAPATH + "GeoIPCity.dat",GeoIP.GEOIP_STANDARD)
+gi1 = GeoIP.open(const.CONSTDATAPATH + "GeoIPCity.dat",GeoIP.GEOIP_STANDARD)
 logging.basicConfig(format='%(asctime)s %(message)s',
                             datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger('myLogger')
@@ -67,10 +67,11 @@ def load_and_remove_errors():
     if not os.path.exists(const.DATAPATH + "sanitize"):
         os.makedirs(const.DATAPATH + "sanitize")
 
-    filepath = const.DATAPATH + const.fname
-    print "Find file in "+ filepath
+    filepath = const.CONSTDATAPATH + const.fname
+
     temp = "gIP,sIP,port,ipids,diff_list,ts,k1,k2,retransmit_times,NotGlobal,NotEnough,NotEnoughRetrans, date"
     header_row = temp.split(",")
+    print "Find file in "+ filepath
     df_all = pd.read_csv(filepath, delimiter="|", names=header_row)
 
     # Add countries
@@ -82,10 +83,13 @@ def load_and_remove_errors():
     df = df_all[ df_all["ipids"].notnull() ]
 
     # save both sets in const.DATAPATH
+    print "Save null and nonnull in "+ const.DATAPATH + "sanitize/"
     df_nulls[["sIP", "gIP", "country"]].to_csv(const.DATAPATH + "cond_er_redo")
-    df_nulls.to_pickle(const.DATAPATH + "sanitize/null_ipid_cond_er_redo.pkl")
     df.to_csv(const.DATAPATH + "cond_pass_basic_"+const.fdate, sep="|")
+
+    df_nulls.to_pickle(const.DATAPATH + "sanitize/null_ipid_cond_er_redo.pkl")
     df.to_pickle( const.DATAPATH + "sanitize/phase1_ipid_nonnull_"+const.fdate+".pkl")
+
 
     return df
 
@@ -98,9 +102,9 @@ def sanitize_converge_data(filename="cond_pass_basic"+const.fdate):
     """
 
     try:
-        sIP_server = pd.read_csv(const.DATAPATH + "Servers_IMC.txt")
+        sIP_server = pd.read_csv(const.CONSTDATAPATH + "Servers_IMC.txt")
     except:
-        print "Please put Servers_IMC.txt in " + const.DATAPATH
+        print "Please put Servers_IMC.txt in " + const.CONSTDATAPATH
 
     filepath = const.DATAPATH + filename
     convert_dic2 = {"k1":float, "k2": float}

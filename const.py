@@ -1,5 +1,6 @@
-DATAPATH = "data/"
 fname = "ALL_APR7"
 fdate = "Apr7"
+CONSTDATAPATH = "data/"
+DATAPATH = "data_"+fdate+"/"
 SPLITFOLDER = DATAPATH + "splits_"+fdate+"/"
 DETECTFOLDER = DATAPATH + "detects_"+fdate+"/"
