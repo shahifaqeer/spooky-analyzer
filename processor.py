@@ -187,13 +187,13 @@ def join_case_with_data():
 #############################################################
 
 if __name__ == "__main__":
-    pass
+    #pass
 
-    #fname = "ready_for_R_" + const.fdate
-    #df3 = load_dataframe(fname)
+    fname = "ready_for_R_" + const.fdate
+    df3 = load_dataframe(fname)
 
-    #dataframe_splitter(df3, STEP=1000)
-    #del df3
+    dataframe_splitter(df3, STEP=1000)
+    del df3
 
     #parallel_case_detection()
-    #join_case_with_data()
+    join_case_with_data()
