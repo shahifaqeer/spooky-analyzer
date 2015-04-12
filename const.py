@@ -1,5 +1,5 @@
-fname = "ALL_Apr11_T"
-fdate = "Apr11_T"
+fname = "ALL_Apr11_S"
+fdate = "Apr11_S"
 CONSTDATAPATH = "data/"
 DATAPATH = "data_"+fdate+"/"
 SPLITFOLDER = DATAPATH + "splits_"+fdate+"/"
