@@ -7,8 +7,6 @@ import sys
 
 # constants
 fdate = const.final_concat_fdate
-datapath = const.CONSTDATAPATH[:-1]
-
 
 
 def massive_concat():
@@ -16,14 +14,21 @@ def massive_concat():
     full_detected = []
 
     for mc in machines:
-        df = pd.read_pickle(datapath + "_"+mc+"/case_detected_all_"+mc+".pkl")
+        datapath = const.CONSTDATAPATH[:-1] + mc + "/"
+
+        # read full df of each mc case detected
+        df = pd.read_pickle(datapath + "case_detected_all_"+mc+".pkl")
         print " LEN " + mc + " = " + str( len(df) )
         full_detected.append( df )
         del df
 
     df_concat = pd.concat(full_detected)
     print "TOTAL ", len(df_concat)
-    df_concat.to_pickle(datapath + "detected_case_all_"+fdate+".pkl")
+
+    # save csv and pickle
+    df_concat.to_pickle(const.CONSTDATAPATH + "detected_case_all_"+fdate+".pkl")
+    df_concat.to_csv(const.CONSTDATAPATH + "detected_case_all_"+fdate)
+
     return df_concat
 
 
