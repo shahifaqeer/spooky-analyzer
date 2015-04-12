@@ -131,7 +131,7 @@ def sanitize_converge_data(filename="cond_pass_basic"+const.fdate):
     df2 = df_conv.merge(sIP_server, on='sIP', how='outer')
 
     # SAVE TO const.DATAPATH
-    df2.to_pickle(const.DATAPATH + "sanitize/full_merged_ipid_sanitized"+const.fdate+".pkl")
+    df2.to_pickle(const.DATAPATH + "sanitize/full_merged_ipid_sanitized_"+const.fdate+".pkl")
     return df2
 
 def sanitize_semi_finalize(df2):
@@ -140,21 +140,21 @@ def sanitize_semi_finalize(df2):
 
     # SAVE sets to redo due to low ipid in const.DATAPATH
     df_redo[["sIP", "gIP", "country", "domain", "subcat", "diff_p1", "diff_p2"]].to_csv(const.DATAPATH + "low_ipid_er_redo_"+const.fdate)
-    df_redo.to_pickle(const.DATAPATH + "sanitize/low_ipid_er_redo"+const.fdate+".pkl")
+    df_redo.to_pickle(const.DATAPATH + "sanitize/low_ipid_er_redo_"+const.fdate+".pkl")
 
     # semi-finalized
     df = df2[ ~ ( (df2["diff_p1"]<10) | (df2["diff_p2"]<10) ) ]
 
-    # SAVE TO const.DATAPATH
-    df.to_pickle(const.DATAPATH + "sanitize/final_ts60_ipid_sanitized_"+const.fdate+".pkl")
+    # SAVE TO const.DATAPATH: pkl and csv
+    df.to_pickle(const.DATAPATH + "ready_for_R_"+const.fdate+".pkl")
     df[["gIP", "sIP", "port", "ipids", "ts", "k1", "k2", "country",
         "domain", "subcat", "diff_list", "retransmit_times"]].to_csv( const.DATAPATH + "ready_for_R_"+const.fdate)
     return df
 
 ###################################################################################################
 
-def sanitize(filename = const.fname):
-    df1 = load_and_remove_errors(filename)
+def sanitize():
+    df1 = load_and_remove_errors()
     df2 = sanitize_converge_data('cond_pass_basic_'+const.fdate)
     df3 = sanitize_semi_finalize(df2)
     logger.debug("DONE SANITIZING: Save csv to "+const.DATAPATH+"ready_for_R_"+const.fdate)
@@ -162,5 +162,5 @@ def sanitize(filename = const.fname):
 
 
 if __name__ == "__main__":
-    #df3 = sanitize(fname)
+    df3 = sanitize()
     pass

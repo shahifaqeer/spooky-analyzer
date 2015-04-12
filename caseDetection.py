@@ -9,14 +9,6 @@ INTERVENTION = 20 #number of forged packets
 ALPHA = 0.01
 ao_alpha = 0.05
 diffList=[6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,10,11,9,9,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,13,9,9,9,9,None,None,10,9,9,9,9,9,9,None,None,9,9,9,None,None,None,9,9,None,None,9,9,10,9,9,9]
-diffList=[0, 0, 0, 0, 1, 1, 0, 0, 0, 2, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, None, None, None, None, None,
-        None, None, None, None, None, None, None, None, None, None, None, None,
-        None, None, None, None, None, None, None, None, None, None, None, None,
-        None, None, None, None, None, None, None, None, None, None, None, None,
-        None, None, None, None, None, None, None, None, None, None, None, None,
-        None, None, None, None, None, None, None]
 gIP="71.44.3.191"
 sIP="198.211.105.99"
 ts=[60,64,70]
@@ -47,4 +39,4 @@ def detect_case(gIP,sIP,diffList,ts,error_case,INTERVENTION,DEBUG=False):
         return(case,None,None)
 
 if __name__=="__main__":
-    print detect_case(gIP,sIP,diffList,ts,None,INTERVENTION,False)
+    print detect_case(gIP,sIP,diffList,ts,None,INTERVENTION,True)

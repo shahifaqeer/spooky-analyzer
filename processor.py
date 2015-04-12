@@ -8,6 +8,7 @@ import logging
 from collections import defaultdict
 
 import const
+import sanitizer
 
 ##########################################################
 
@@ -41,13 +42,15 @@ def get_country(ip):
 
 # Loader
 def load_dataframe(filename):
-    """ input: filename like ready_for_R csv"""
+    """ input: filename of pickle dataframe ready_for_R csv"""
 
-    if os.path.isfile(const.DATAPATH + filename):
-        return pd.read_csv( const.DATAPATH + filename)
+    if os.path.isfile(const.DATAPATH + filename + ".pkl"):
+        return pd.read_pickle( const.DATAPATH + filename + ".pkl")
     else:
-        logger.error("NO SANITIZED CSV: "+ const.DATAPATH + filename)
-    return
+        logger.error("NO SANITIZED PICKLE: "+ const.DATAPATH + filename)
+        logger.error("SANITIZE DATA FIRST")
+        df = sanitizer.sanitize()
+    return df
 
 
 # MAIN FUNCTIONS
@@ -80,6 +83,8 @@ def dataframe_splitter(df3, STEP=1000):
 # Detector
 def get_each_case(df, OUTNULL=False):
     """ uses the R code to detect case for each 1000 enty batch. stdoutput to dev/null so nothing will print once this global setting is called """
+
+    print "ENTER get_each_case"
 
     if OUTNULL:
         sys.stdout = f
@@ -158,6 +163,7 @@ def single_threaded():
 
 def join_case_with_data():
     full_df = []
+
     for files in glob.glob(const.SPLITFOLDER + "*.pkl"):
         part = files.split("_")[-1].strip(".pkl")
 
@@ -165,13 +171,11 @@ def join_case_with_data():
         df1 = pd.read_pickle(files)
 
         # load case detected parts, join to original, concat into a complete dataframe
-        try:
-            df2 = pd.read_pickle(const.DETECTFOLDER +"case_detected_"+part+".pkl")
-            full_df.append( df1.join(df2) )
-            del df2
-        except:
-            print "ERROR: COULDN'T JOIN " + part
-        del df1
+        df2 = pd.read_pickle(const.DETECTFOLDER +"case_detected_"+part+".pkl")
+        full_df.append( df1.join(df2) )
+
+        del df2, df1
+
     df_full = pd.concat(full_df)
 
     # SAVE TO DATAPATH
@@ -183,13 +187,13 @@ def join_case_with_data():
 #############################################################
 
 if __name__ == "__main__":
-    #pass
+    pass
 
-    fname = "ready_for_R_" + const.fdate
-    df3 = load_dataframe(fname)
+    #fname = "ready_for_R_" + const.fdate
+    #df3 = load_dataframe(fname)
 
-    dataframe_splitter(df3, STEP=1000)
-    del df3
+    #dataframe_splitter(df3, STEP=1000)
+    #del df3
 
-    parallel_case_detection()
-    join_case_with_data()
+    #parallel_case_detection()
+    #join_case_with_data()

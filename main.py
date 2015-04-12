@@ -15,7 +15,7 @@ if __name__ == "__main__":
     df1 = load_and_remove_errors()
     df2 = sanitize_converge_data('cond_pass_basic_'+ const.fdate)
     df3 = sanitize_semi_finalize(df2)
-    logger.debug("DONE SANITIZING: Save csv to "+ const.DATAPATH+"ready_for_R_"+ const.fdate)
+    logger.debug("DONE SANITIZING: Save pkl to "+ const.DATAPATH+"ready_for_R_"+ const.fdate+".pkl")
     del df1, df2
 
     # process
