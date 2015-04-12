@@ -19,7 +19,7 @@ if __name__ == "__main__":
     del df1, df2
 
     # process
-    dataframe_splitter(df3, STEP=1000):
+    dataframe_splitter(df3, STEP=1000)
     parallel_case_detection()
     join_case_with_data()
 
