@@ -1,5 +1,7 @@
 *.ipynb*
 *.pyc
 data*/
+results/
+old_ipynb/
 
 *.swp
