@@ -1,4 +1,5 @@
 # Create a world map
+import numpy as np
 
 def create_world_map(data, title, normalize=False, parts=[]):
     """Create a URL to a colorized world map with the google maps API
