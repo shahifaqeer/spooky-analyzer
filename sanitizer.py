@@ -87,7 +87,7 @@ def load_and_remove_errors():
     df_nulls[["sIP", "gIP", "country"]].to_csv(const.DATAPATH + "sanitize/cond_er_redo.csv")
     df.to_csv(const.DATAPATH + "sanitize/cond_pass_basic.csv", sep="|")
 
-    df_nulls.to_pickle(const.DATAPATH + "sanitize/null_ipid_cond_er_redo.pkl")
+    df_nulls.to_pickle(const.DATAPATH + "sanitize/cond_er_redo.pkl")
     df.to_pickle( const.DATAPATH + "sanitize/cond_pass_basic.pkl")
 
 
