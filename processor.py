@@ -92,7 +92,8 @@ def get_each_case(df, OUTNULL=False):
     mydata = defaultdict(list)
 
     for ix, row in df.iterrows():
-        case, pvalue, intervention = detect_case(row['gIP'], row['sIP'], row['diff_list'], row['ts'], None, 20, True)
+        case, pvalue, intervention = detect_case(row['gIP'], row['sIP'], row['diff_list'], row['ts'], None,
+                const.CENSORPLANET_INTERVENTION, True)
 
         mydata['index'].append(ix)
         mydata['case'].append(case)
