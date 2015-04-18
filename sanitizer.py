@@ -56,7 +56,7 @@ def count_not_none(some_list):
 
 # MAIN FUNCTIONS
 
-def load_and_remove_errors():
+def load_and_remove_errors(saveas="cond_pass_basic.pkl"):
     """
     Load raw df;
     Add countries;
@@ -88,14 +88,12 @@ def load_and_remove_errors():
     df.to_csv(const.DATAPATH + "sanitize/cond_pass_basic.csv", sep="|")
 
     df_nulls.to_pickle(const.DATAPATH + "sanitize/cond_er_redo.pkl")
-    df.to_pickle( const.DATAPATH + "sanitize/cond_pass_basic.pkl")
-
+    df.to_pickle( const.DATAPATH + "sanitize/"+saveas)
 
     return df
 
-def sanitize_converge_data(filename="cond_pass_basic.pkl"):
+def sanitize_converge_data(df_san):
     """
-    Load cond_pass_basic.pkl;
     Convert types by splitting;
     Add subcategories;
     Save
@@ -106,11 +104,12 @@ def sanitize_converge_data(filename="cond_pass_basic.pkl"):
     except:
         print "Please put Servers_IMC.txt in " + const.CONSTDATAPATH
 
-    filepath = const.DATAPATH + "sanitize/" + filename
     convert_dic2 = {"k1":float, "k2": float}
 
+    if len(df_san) > 0:
+        print "loaded cond_pass_basic dataframe: sanitize and convert"
+
     # read csv and convert columns
-    df_san = pd.read_pkl(filepath,delimiter="|", converters=convert_dic2)
     df_conv = df_san[["ipids", "ts", "diff_list", "retransmit_times"]].applymap(split_int)
 
     # copy rest of the columns
@@ -158,8 +157,8 @@ def sanitize_semi_finalize(df2):
 ###################################################################################################
 
 def sanitize():
-    df1 = load_and_remove_errors()
-    df2 = sanitize_converge_data('cond_pass_basic.pkl')
+    df1 = load_and_remove_errors('cond_pass_basic.pkl')
+    df2 = sanitize_converge_data(df1)
     df3 = sanitize_semi_finalize(df2)
     logger.debug("DONE SANITIZING: Save csv to "+const.DATAPATH+"ready_for_R.csv")
     return df3

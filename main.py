@@ -39,8 +39,8 @@ if __name__ == "__main__":
         os.makedirs(const.DATAPATH)
 
     # sanitize
-    df1 = load_and_remove_errors()
-    df2 = sanitize_converge_data('cond_pass_basic.pkl')
+    df1 = load_and_remove_errors('cond_pass_basic.pkl')
+    df2 = sanitize_converge_data(df1)
     df3 = sanitize_semi_finalize(df2)
     logger.debug("DONE SANITIZING: Save pkl to "+ const.DATAPATH+"ready_for_R.pkl")
     del df1, df2
