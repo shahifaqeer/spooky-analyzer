@@ -19,7 +19,7 @@ def detect_case(gIP,sIP,diffList,ts,error_case,INTERVENTION,DEBUG=False):
  #   if error_case!=None: return(4,None,None)
     try:
         ir=intervention_at_time(diffList,ts, [0.5 * INTERVENTION,\
-            (min(2,((len(ts)+1)/2))) * INTERVENTION], 0.05, True) #FIXME
+            (min(2,((len(ts)+1)/2))-0.1) * INTERVENTION], 0.05, True) #FIXME
         if DEBUG:print "ir.pvalues",ir.pvalues[0],ALPHA
         case = -1
         if ir.pvalues[0] <= ALPHA:

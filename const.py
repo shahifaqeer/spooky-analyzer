@@ -1,9 +1,9 @@
 # filename (use dates) in data/ folder
-fname = "ALLApril17.csv"
-fdate = "Apr17"
+fname = "ALLApril20"
+fdate = "Apr20"
 
 # massive concat data (if in use)
-final_concat_fdate = "Apr17"
+final_concat_fdate = "Apr20"
 
 # parameters
 # intervention for case detection
