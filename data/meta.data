@@ -1,0 +1,28 @@
+# Data as of April 22, 2015
+# All of the following data goes through moderate case detection again.
+
+
+# Old biased data with strict case detection (discard) in ALL_Apr12/
+# Ben's code was biasing measurements towards US and PL
+# 350k measurements
+
+    16958 ALL_Apr11_S
+    18348 ALL_Apr11_T
+    17730 ALL_Apr12_F
+   295887 ALL_APR7
+   348923 total          # Rename concat all to 20150412_biased.csv
+
+# Newer data unbiased towards any country
+# Includes Apr17 and Apr20 snapshots with moderate case detection in Snapshot*/
+# 263k measurements
+
+    96268 ALL_April22_F.csv
+    80104 ALL_April22_S.csv
+    87220 ALL_April22_T.csv
+   263592 total           # Rename concat all to 20150422_unbiased.csv
+
+# Total data
+   612515 total
+
+   cat ALL_APR7 ALL_Apr11_S ALL_Apr11_T ALL_Apr12_F > 20150412_biased.csv
+   cat ALL_April22_F.csv ALL_April22_S.csv ALL_April22_T.csv > 20150422_unbiased.csv
