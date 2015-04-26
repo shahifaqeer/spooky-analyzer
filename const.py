@@ -1,9 +1,10 @@
 # filename (use dates) in data/ folder
-fname = "20150412_biased.csv"
-fdate = "20150412"
+fname = "20150422_unbiased.csv"
+#fname = "20150412_biased.csv"
+fdate = "20150422"
 
 # massive concat data (if in use)
-final_concat_fdate = "20150412"
+final_concat_fdate = "20150422"
 
 # parameters
 # intervention for case detection
