@@ -573,7 +573,7 @@ sIP,domain,subcat
 64.14.48.177,freelotto.com,games
 159.53.224.21,www.chase.com,regional|business
 23.235.39.184,self.com,health
-86.59.21.38,torDir,alexa-top-sites-circum.txt
+86.59.21.38,torDir,circum
 194.109.206.212,torDir,circum
 131.188.40.189,torDir,circum
 193.23.244.244,torDir,circum
