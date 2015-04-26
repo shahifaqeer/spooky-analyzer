@@ -479,8 +479,18 @@ df_short.to_html(RESULTS + "df_sanitize_sIP_short.html")
 df_short.to_excel(RESULTS + "df_sanitize_sIP_short.xlsx")
 
 
-print RESULTS
 
+#TODO
+# # DATA ANALYSIS: Types US/SE censorship expected
+#- previous plot shows a CDF knee at censorship = 0.2, basically those 21% or so of the sIPs must be cloudflare.
+#- type1: highly censored in US/SE
+#- type2: US blocked, SE unblocked
+#- type3: US unblocked, SE blocked
+#- type4: uncensored (static IPs?)
+# ### Analysis of slices is in exploring....ipynb
+
+print RESULTS
+print df_short
 
 ###########################################################################################################################
 # # OLD SIP LIST
