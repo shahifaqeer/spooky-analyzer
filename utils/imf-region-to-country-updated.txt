@@ -1,0 +1,635 @@
+Africa
+
+Algeria
+Angola
+Benin
+Botswana
+Burkina Faso
+Burundi
+Cameroon
+Cape Verde
+Central African
+  Republic
+Chad
+Comoros
+Congo, Dem.
+  Rep. of
+Congo, Republic of
+Côte d'Ivoire
+Djibouti
+Egypt
+Equatorial Guinea
+  
+
+Eritrea
+Ethiopia
+Gabon
+Gambia, The
+Ghana
+Guinea
+Guinea-Bissau
+Kenya
+Lesotho
+Liberia
+Libya
+Madagascar
+Malawi
+Mali
+Mauritania
+Mauritius
+Mayotte
+Morocco
+Mozambique
+  
+
+Namibia
+Niger
+Nigeria
+Reunion
+Rwanda
+Saint Helena
+São Tomé and
+  Príncipe
+Senegal
+Seychelles
+Sierra Leone
+Somalia
+South Africa
+Sudan
+Swaziland
+Tanzania
+Togo
+Tunisia
+Uganda
+Zambia
+Zimbabwe
+
+    
+North Africa
+
+Algeria
+Egypt
+  
+
+Libya
+  
+
+Morocco
+Tunisia
+
+    
+Sub-Saharan Africa
+
+Angola
+Benin
+Botswana
+Burkina Faso
+Burundi
+Cameroon
+Cape Verde
+Central African
+  Republic
+Chad
+Comoros
+Congo, Dem.
+  Rep. of
+Congo, Republic of
+Côte d'Ivoire
+Djibouti
+Equatorial Guinea
+  
+
+Eritrea
+Ethiopia
+Gabon
+Gambia, The
+Ghana
+Guinea
+Guinea-Bissau
+Kenya
+Lesotho
+Liberia
+Madagascar
+Malawi
+Mali
+Mauritania
+Mauritius
+Mayotte
+Mozambique
+Namibia
+Niger
+  
+
+Nigeria
+Reunion
+Rwanda
+Saint Helena
+São Tomé and
+  Príncipe
+Senegal
+Seychelles
+Sierra Leone
+Somalia
+South Africa
+Sudan
+Swaziland
+Tanzania
+Togo
+Uganda
+Zambia
+Zimbabwe
+
+    
+Asia and Pacific
+
+Afghanistan,
+  Islamic Rep. of
+American Samoa
+Armenia
+Australia
+Azerbaijan
+Bangladesh
+Bhutan
+Brunei Darussalam
+Cambodia
+China, People's
+  Republic of
+Cook Islands
+Fiji
+French Polynesia
+Georgia
+Guam
+Hong Kong SAR
+India
+Indonesia
+Japan
+Kazakhstan
+Kiribati
+Korea, Dem.
+  People's Rep. of
+  
+
+Korea, Republic of
+Kyrgyz Republic
+Labuan (Malaysia)
+Lao People's
+  Democratic Republic
+Macao SAR
+Malaysia
+Maldives
+Marshall Islands
+Micronesia, Fed.
+  States of
+Mongolia
+Myanmar
+Nauru
+Nepal
+New Caledonia
+New Zealand
+Niue
+Norfolk Island
+Northern Mariana
+  Islands
+Palau Pakistan
+Papua New
+  Guinea
+Philippines
+  
+
+Pitcairn
+Samoa
+Singapore
+Solomon
+  Islands
+Sri Lanka
+Taiwan
+  Province of
+  China
+Tajikistan
+Thailand
+Timor-Leste
+Tokelau
+Tonga
+Turkmenistan
+Turkey
+Tuvalu
+Uzbekistan
+Vanuatu
+Vietnam
+Wallis and
+  Futuna Islands
+
+    
+Australia and New Zealand
+
+Australia
+  
+
+New Zealand
+  
+
+Norfolk Island
+
+    
+Central Asia and the Caucasus
+
+Afghanistan,
+  Islamic Rep. of
+Armenia
+  
+
+Azerbaijan
+Georgia
+Kazakhstan
+Kyrgyz Republic
+  
+
+Tajikistan
+Turkmenistan
+Turkey
+Uzbekistan
+
+  
+East Asia
+
+China, People's
+  Republic of
+Hong Kong SAR
+Japan
+Korea, Dem.
+  People's Rep. of
+  
+
+Korea, Republic of
+Macao SAR
+Mongolia
+Taiwan Province
+  of China
+
+    
+Pacific Islands
+
+American Samoa
+Cook Islands
+Fiji
+French Polynesia
+Guam
+Kiribati
+Marshall Islands
+Micronesia, Fed.
+  States of
+  
+
+Nauru
+New Caledonia
+Niue
+Northern Mariana
+  Islands
+Palau
+Papua New
+  Guinea
+Pitcairn
+  
+
+Samoa
+Solomon Islands
+Tokelau
+Tonga
+Tuvalu
+Vanuatu
+Wallis and Futuna
+  Islands
+
+    
+South Asia
+
+Bangladesh
+Bhutan
+India
+  
+
+Maldives
+Nepal
+  
+
+Pakistan
+Sri Lanka
+
+    
+Southeast Asia
+
+Brunei Darussalam
+Cambodia
+Indonesia
+Labuan (Malaysia)
+  
+
+Lao People's
+  Democratic Republic
+Malaysia
+Myanmar
+  
+
+Philippines
+Singapore
+Thailand
+Timor-Leste
+Vietnam
+
+Europe
+
+Åland Islands
+Albania
+Andorra
+Austria
+Belarus
+Belgium
+Bosnia and
+  Herzegovina
+Bulgaria
+Croatia
+Czech Republic
+Cyprus
+Denmark
+Estonia
+Faeroe Islands
+Finland
+France
+Germany
+Gibraltar
+Greece
+Greenland
+  
+
+Guernsey,
+  (Channel Islands)
+Holy See
+Hungary
+Iceland
+Ireland
+Isle of Man
+Italy
+Jersey,
+  (Channel Islands)
+Kosovo
+Latvia
+Liechtenstein
+Lithuania
+Luxembourg
+Macedonia, former
+  Yugoslav Republic of
+Malta
+Moldova
+Monaco
+Montenegro
+  
+
+Netherlands
+Norway
+Poland
+Portugal
+Romania
+Russian
+  Federation
+San Marino
+Serbia
+Slovak Republic
+Slovenia
+Spain
+Sweden
+Switzerland
+Ukraine
+United Kingdom
+
+Eastern Europe
+
+Albania
+Belarus
+Bosnia and
+  Herzegovina
+Bulgaria
+Croatia
+Czech Republic
+Estonia
+Hungary
+  
+
+Kosovo
+Latvia
+Lithuania
+Macedonia, former
+  Yugoslav Republic of
+Moldova
+Montenegro
+  
+
+Poland
+Romania
+Russian
+  Federation
+Serbia
+Slovak Republic
+Slovenia
+Ukraine
+
+  
+Western Europe
+
+Åland Islands
+Andorra
+Austria
+Belgium
+Cyprus
+Denmark
+Faeroe Islands
+Finland
+France
+Germany
+Gibraltar
+Greece
+  
+
+Greenland
+Guernsey,
+  (Channel Islands)
+Holy See
+Iceland
+Ireland
+Isle of Man
+Italy
+Jersey,
+  (Channel Islands)
+Liechtenstein
+  
+
+Luxembourg
+Malta
+Monaco
+Netherlands
+Norway
+Portugal
+Sweden
+San Marino
+Spain
+Switzerland
+United Kingdom
+
+Middle East
+
+Bahrain
+Iran, Islamic
+  Republic of
+Iraq
+Israel
+Jordan
+Kuwait
+  
+
+Lebanon
+Oman
+Qatar
+Saudi Arabia
+Syrian Arab
+  Republic
+  
+
+United Arab
+  Emirates
+West Bank and
+  Gaza
+Yemen,
+  Republic of
+
+Western Hemisphere
+
+Anguilla
+Antigua and
+  Barbuda
+Argentina
+Aruba
+Bahamas, The
+Barbados
+Belize
+Bermuda
+Bolivia
+Brazil
+Canada
+Cayman Islands
+Chile
+Colombia
+Costa Rica
+Cuba
+Dominica
+Dominican Republic
+Ecuador
+El Salvador
+  
+
+Falkland Islands
+  (Malvinas)
+French Guiana Grenada
+Guadeloupe
+Guatemala
+Guyana
+Haiti
+Honduras
+Jamaica
+Martinique
+Mexico
+Montserrat
+Netherlands
+  Antilles
+Nicaragua
+Panama
+Paraguay
+Peru
+Puerto Rico
+
+  
+
+Saint Kitts
+  and Nevis
+Saint Lucia
+Saint Pierre
+  and Miquelon
+Saint Vincent and
+  the Grenadines
+Suriname
+Trinidad and
+  Tobago
+Turks and
+  Caicos Islands
+United States
+Uruguay
+Venezuela, Rep. Boliv. de
+British Virgin
+  Islands
+United States
+  Virgin Islands
+
+Caribbean
+
+Anguilla
+Antigua and
+  Barbuda
+Aruba
+Bahamas, The
+Barbados
+Cayman Islands
+Cuba
+Dominica
+Dominican
+  Republic
+  
+
+Grenada
+Guadeloupe
+Haiti
+Jamaica
+Martinique
+Montserrat
+Netherlands
+  Antilles
+Puerto Rico
+Saint Kitts
+  and Nevis
+Saint Lucia
+Saint Vincent and the Grenadines
+Trinidad and Tobago
+Turks and Caicos Islands
+British Virgin Islands
+United States Virgin Islands
+
+Central America
+Belize
+Costa Rica
+El Salvador
+Guatemala
+Honduras
+Nicaragua
+Panama
+
+North America
+Bermuda
+Canada
+Mexico
+United States
+Saint Pierre
+  and Miquelon
+
+South America
+
+Argentina
+Bolivia
+Brazil
+Chile
+Colombia
+Ecuador
+Falkland Islands (Malvinas)
+French Guiana
+Guyana
+Paraguay
+Peru
+Suriname
+Uruguay
+Venezuela, Rep. Boliv. de

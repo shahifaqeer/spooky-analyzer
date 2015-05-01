@@ -1,0 +1,8 @@
+imf_region,abbrev
+Latin_America,la
+Middle_East,me
+Africa,af
+Asia,as
+South_America,sa
+Europe,eu
+North_America,na

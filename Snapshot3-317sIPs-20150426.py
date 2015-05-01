@@ -1,5 +1,5 @@
 from __future__ import division
-get_ipython().magic(u'matplotlib nbagg')
+#get_ipython().magic(u'matplotlib nbagg')
 import pandas as pd
 import os, sys
 import numpy as np
@@ -20,13 +20,15 @@ get_ipython().magic(u'autoreload 2')
 #plt.plot([1,2,3,4],'*-')
 
 
-SUBCAT_TYPE = 'disjoint'
+SUBCAT_TYPE = 'unshared'
+print "START SUBCAT_TYPE = ", SUBCAT_TYPE
 #'unshared'
+#'disjoint'
 #'general'
 
 # In[63]:
 
-SAMPLENAME = 'Snapshot3_317sIPs_Apr27'
+SAMPLENAME = 'Snapshot3_317sIPs_Apr27_'+SUBCAT_TYPE
 RESULTS = "results/" + SAMPLENAME + "/"
 if not os.path.exists(RESULTS):
     os.makedirs(RESULTS)
@@ -210,7 +212,7 @@ df_count_per_country_subcat_case = grouped_by_country_subcat_case.count().rename
 # replace nan with 0
 df_case_count = df_count_per_country_subcat_case.unstack(level=-1)['count'].fillna(0)
 df_case_count['total'] = df_case_count.sum(axis=1)
-df_case_count.to_html(RESULTS+'cases_per_country_subcat-'+subcat_type+'.htm')
+df_case_count.to_html(RESULTS+'cases_per_country_subcat.htm')
 #df_case_count.head()
 
 
@@ -237,7 +239,7 @@ censorship_ratio['case3'] = df_censorship['case3'].to_dict()
 censorship_ratio['error'] = df_censorship['error'].to_dict()
 
 df_censorship.sort('case2', inplace=True)
-df_censorship.to_html(RESULTS+ 'subcat_censorship_total-'+subcat_type+'.htm')
+df_censorship.to_html(RESULTS+ 'subcat_censorship_total.htm')
 #print df_censorship
 
 
@@ -250,9 +252,9 @@ df = df_censorship[['case2', 'case1', 'case3']].rename(columns = {'case2':'no-pa
 df.plot(kind='bar', stacked=True, ax=ax1)
 ax1.legend(loc='best', prop={'size':14})
 fig1.tight_layout()
-fig1.savefig(RESULTS + "cases_ratio_by_subcat_stacked_bar-"+subcat_type)
+fig1.savefig(RESULTS + "cases_ratio_by_subcat_stacked_bar")
 
-df.to_html(RESULTS + "cases_ratio_by_subcat_stacked_bar-"+subcat_type+".html")
+df.to_html(RESULTS + "cases_ratio_by_subcat_stacked_bar.html")
 
 
 # ## PER SUBCAT ANALYSIS (INC. ERRORS)
@@ -305,7 +307,7 @@ df_country_case_subcat = pd.concat(country_case_per_subcat)
 # In[110]:
 
 # save list of countries
-pd.Series(df_country_case_subcat.reset_index()['country'].unique()).to_csv(RESULTS+"list_of_countries.csv")
+#pd.Series(df_country_case_subcat.reset_index()['country'].unique()).to_csv(RESULTS+"list_of_countries.csv")
 
 
 # In[111]:
@@ -313,10 +315,10 @@ pd.Series(df_country_case_subcat.reset_index()['country'].unique()).to_csv(RESUL
 df_experiment_stats = df_country_case_subcat['total'].unstack()
 per_country = df_experiment_stats.describe().T[['count','mean','std','min','max']].rename(
     columns={'count':'num_countries', 'mean':'avg_num_measurements_per_subcat'})
-per_country.to_html(RESULTS + "experiment_total_stats_per_country-"+subcat_type+".html")
+per_country.to_html(RESULTS + "experiment_total_stats_per_country.html")
 per_subcat = df_experiment_stats.T.describe().T[['count','mean','std','min','max']].rename(
     columns={'count':'num_subcats', 'mean':'avg_num_measurements_per_country'})
-per_subcat.to_html(RESULTS + "experiment_total_stats_per_subcat-"+subcat_type+".html")
+per_subcat.to_html(RESULTS + "experiment_total_stats_per_subcat.html")
 
 
 # In[112]:
@@ -358,7 +360,7 @@ df_censorship2 = df_subcat_country.reset_index()
 
 # In[118]:
 
-currFolder = RESULTS + "subcat-"+subcat_type+"/"
+currFolder = RESULTS + "subcat/"
 if not os.path.exists(currFolder):
     os.makedirs(currFolder)
 
@@ -431,10 +433,10 @@ for label, x, y in zip(df4.index, df4[0], df4[1]):
         arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
 ax1.grid(1)
 ax1.set_title("TSNE for server-to-client, client-to-server, and no-blocking for all subcats")
-fig1.savefig(RESULTS + model+"-countries_all_cols-"+subcat_type)
+fig1.savefig(RESULTS + model+"-countries_all_cols")
 #fig1.show()
 plt.close()
-df4.to_html(RESULTS + model+"-countries_all_cols-"+subcat_type+".html")
+df4.to_html(RESULTS + model+"-countries_all_cols.html")
 
 
 # PCA
@@ -452,10 +454,10 @@ for label, x, y in zip(df4.index, df4[0], df4[1]):
         arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
 ax2.grid(1)
 ax2.set_title("PCA for server-to-client, client-to-server, and no-blocking for all subcats")
-fig2.savefig(RESULTS + model + "-countries_all_cols-"+subcat_type)
+fig2.savefig(RESULTS + model + "-countries_all_cols")
 #fig2.show()
 plt.close()
-df4.to_html(RESULTS + model+"-countries_all_cols-"+subcat_type+".html")
+df4.to_html(RESULTS + model+"-countries_all_cols.html")
 
 
 # # GLOBAL SCATTER
@@ -536,9 +538,9 @@ for subcat in df_censorship2.subcat.unique():
     ax2.set_xlabel('total-censorship-ratio')
     ax2.set_title(model + " for server-to-client/total-censorship ratio and no-blocking for subcat "+subcat)
     ax2.grid(1)
-    fig2.savefig(RESULTS + "subcat-"+subcat_type+"/" + model + '-' + subcat)
+    fig2.savefig(RESULTS + "subcat/" + model + '-' + subcat)
     plt.close()
-    df4.to_html(RESULTS + "subcat-"+subcat_type+"/" + model + '-' + subcat + ".html")
+    df4.to_html(RESULTS + "subcat/" + model + '-' + subcat + ".html")
 
     # try PCA and TSNE - should be same result
     df3 = df_filtered[df_filtered['subcat']==subcat].set_index('country')[['case2', 'case1/case13']]
@@ -558,10 +560,10 @@ for subcat in df_censorship2.subcat.unique():
             arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
     ax1.grid(1)
     ax1.set_title(model + " for server-to-client/total-censorship ratio and no-blocking for subcat "+subcat)
-    fig1.savefig(RESULTS + "subcat-"+subcat_type+"/" + model + '-' + subcat)
+    fig1.savefig(RESULTS + "subcat/" + model + '-' + subcat)
     #fig1.show()
     plt.close()
-    df4.to_html(RESULTS + "subcat-"+subcat_type+"/" + model + '-' + subcat + ".html")
+    df4.to_html(RESULTS + "subcat/" + model + '-' + subcat + ".html")
 
     # PCA
     model = 'pca'
@@ -577,10 +579,10 @@ for subcat in df_censorship2.subcat.unique():
             arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
     ax2.grid(1)
     ax2.set_title(model + " for server-to-client/total-censorship ratio and no-blocking  for subcat "+subcat)
-    fig2.savefig(RESULTS + "subcat-"+subcat_type+"/" + model + '-' + subcat)
+    fig2.savefig(RESULTS + "subcat/" + model + '-' + subcat)
     #fig2.show()
     plt.close()
-    df4.to_html(RESULTS + "subcat-"+subcat_type+"/" + model + '-' + subcat + ".html")
+    df4.to_html(RESULTS + "subcat/" + model + '-' + subcat + ".html")
 
 
 # # SCATTER GLOBAL
@@ -634,624 +636,4 @@ plt.close()
 df4.to_html(RESULTS + model + '-' + subcat + '.html')
 
 
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# # Sanitize and Unbiasing
-# - see how many are case 0 and 4
-# - select best case for those with multiple case entries per sIP
-
-# In[10]:
-
-print "sIP, country with discrepancy: ", len( df_per_sIP_country[df_per_sIP_country['unique_count'] > 1] ) / len (df_per_sIP_country)
-
-
-# #### choose first valid index of each sip,country pair
-
-# In[11]:
-
-def choose_valid_case(case_list):
-    """ return first case that was either 1, 2, 3"""
-    for x in case_list:
-        if (x == 1) or (x == 2) or (x == 3):
-            return x
-    return case_list[0]
-
-
-# In[12]:
-
-df_unique = gp_good_sIP_country['case'].apply(choose_valid_case).reset_index()
-# drop duplicate rows with same sIP, country, case
-df_unique = df_unique.drop_duplicates()
-print len( df_unique.sIP.unique() )
-print len( df_unique.country.unique() )
-print len( df_unique )
-
-
-# In[13]:
-
-# Quick check
-df_temp = df_unique.groupby(['sIP', 'country'])['case'].unique().reset_index()
-df_temp['count'] = df_unique.groupby(['sIP', 'country'])['case'].count().reset_index()['case']
-df_temp['unique_count'] = df_per_sIP_country['case'].apply(lambda x: len(x))
-df_temp[df_temp['count']>1]
-
-
-# ## Merge unique selected entries with subcats
-
-# In[23]:
-
-df_unbiased = df_unique.merge(df_sIP_subcat_disjoint, on=['sIP'])
-df_unbiased.subcat.unique()
-
-
-# In[24]:
-
-# Quick check
-df_unbiased[df_unbiased['domain']=='history.com'].head()
-
-
-# ## Data description
-# - total experiments: means, var per country
-# - total experiments: means, var per subcat
-
-# In[36]:
-
-# save list of countries
-pd.Series(df_unbiased.reset_index()['country'].unique()).to_csv(RESULTS+"list_of_countries.csv")
-
-
-# In[37]:
-
-df_experiment_stats = df_unbiased.groupby(['country', 'subcat']).count()['sIP'].unstack()
-
-
-# In[38]:
-
-per_country = df_experiment_stats.describe().T[['count','mean','std','min','max']].rename(
-    columns={'count':'num_countries', 'mean':'avg_num_measurements_per_subcat'})
-per_country.to_html(RESULTS + "experiment_total_stats_per_country.html")
-per_subcat = df_experiment_stats.T.describe().T[['count','mean','std','min','max']].rename(
-    columns={'count':'num_subcats', 'mean':'avg_num_measurements_per_country'})
-per_subcat.to_html(RESULTS + "experiment_total_stats_per_subcat.html")
-
-
-# ### Save domain/country/case
-
-# In[135]:
-
-df_unbiased.to_pickle(RESULTS + 'domain_censorship_results_repeated-categ.pkl')
-df_unbiased.to_csv(RESULTS + 'domain_censorship_results_repeated-categ.csv')
-df_unbiased.head(10)
-
-
-# <hr/>
-# # BELOW THIS IS ANALYSIS
-# <hr/>
-
-# ## CENSORSHIP RATIOS
-# - count country, case, subcat
-
-# In[54]:
-
-df_country_case_subcat = df_unbiased.groupby(['country', 'case', 'subcat'])['sIP'].count().unstack(1).fillna(0)
-df_country_case_subcat.head(10)
-
-
-# ## ADD relevant ratio columns
-
-# In[78]:
-
-df_country_case_subcat = df_unbiased.groupby(['country', 'case', 'subcat'])['sIP'].count().unstack(1).fillna(0)
-df_country_case_subcat = df_country_case_subcat.rename(columns={1:'1', 2:'2', 3:'3'})
-df_country_case_subcat['total'] = df_country_case_subcat[['1','2','3']].sum(axis=1)
-df_country_case_subcat['case1'] = df_country_case_subcat['1']/df_country_case_subcat['total']
-df_country_case_subcat['case2'] = df_country_case_subcat['2']/df_country_case_subcat['total']
-df_country_case_subcat['case3'] = df_country_case_subcat['3']/df_country_case_subcat['total']
-df_country_case_subcat['case13'] = (df_country_case_subcat['1'] + df_country_case_subcat['3'])/df_country_case_subcat['total']
-df_country_case_subcat['case1/case13'] = df_country_case_subcat['1']/(df_country_case_subcat['1'] + df_country_case_subcat['3'])
-df_country_case_subcat.head()
-
-
-# In[64]:
-
-all_results = list(df_country_case_subcat.columns)
-print all_results
-
-
-# In[79]:
-
-censorship_ratio = defaultdict(int)
-for key in ['case1', 'case3', 'case13', 'case2', 'total']:
-    censorship_ratio[key] = df_country_case_subcat[key].unstack(0)
-    censorship_ratio[key].to_html(RESULTS + 'ALL_Apr20_censorship_'+key+'_updated.html')
-
-
-# In[82]:
-
-# check
-df_country_case_subcat[['case1','case2','case3']].sum(axis=1)
-
-
-# # BY SUBCAT per COUNTRY and vice versa
-# - draw above plots for each country
-# - each subplot
-
-# In[132]:
-
-df_censorship = df_country_case_subcat.reset_index()
-df_per_subcat = df_censorship[ df_censorship['subcat']==subcat ].sort('case2')
-df_censorship.to_html(RESULTS + 'all_case_ratios.html')
-df_censorship.to_pickle(RESULTS + 'all_case_ratios.pkl')
-# check
-len(df_per_subcat.set_index('country'))
-
-
-# In[94]:
-
-currFolder = RESULTS + "subcat/"
-if not os.path.exists(currFolder):
-    os.makedirs(currFolder)
-
-for subcat in df_censorship.subcat.unique():
-
-    df_per_subcat = df_censorship[ df_censorship['subcat']==subcat ].sort('case2')
-
-    #fig1, ax1 = plt.subplits(1, 1, figsize=(10,7))
-    fig1, ax1 = plt.subplots(1,1, figsize=(20,6))
-    df = df_per_subcat.set_index('country')[['case2', 'case1','case3']].rename({'case2':'no-packets-dropped',
-                                                                  'case1':'server-to-client-dropped',
-                                                                  'case3':'client-to-server-dropped'})
-    df.plot(kind='bar', stacked=True, ax=ax1)
-    ax1.legend(loc='best', prop={'size':14})
-    fig1.tight_layout()
-    fig1.savefig(currFolder + "cases_ratio_by_country_stacked_bar_"+subcat)
-    plt.close()
-
-
-# # PCA
-
-# In[95]:
-
-from sklearn.manifold import TSNE
-from sklearn.decomposition import PCA
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits.mplot3d import proj3d
-
-
-# In[96]:
-
-tsne = TSNE(n_components=2, random_state=0)
-pca = PCA(n_components=2)
-
-
-# In[97]:
-
-df_censorship.subcat.unique()
-
-
-# In[99]:
-
-df_censorship.head()
-
-
-# In[100]:
-
-df_filtered = df_censorship[['subcat','country','case1','case2','case3', 'case13', 'case1/case13']]
-#df_filtered['case1/case13'] = df_filtered['case1']/( df_filtered['case1'] + df_filtered['case3'] )
-#df_filtered2 = df_filtered[['subcat','country','case1','case2','case3']]
-#df_filtered3 = df_filtered[['subcat','country','case1/case13','case2']]
-
-
-# In[105]:
-
-df_multidim = df_filtered.pivot(index='country', columns='subcat')
-df_multidim2 = df_filtered[['subcat','country','case1','case2','case3']].pivot(index='country', columns='subcat')
-df_multidim3 = df_filtered[['subcat','country','case13','case1/case13']].pivot(index='country', columns='subcat')
-
-
-# In[108]:
-
-mat = df_multidim2.as_matrix()
-df4 = pd.DataFrame(tsne.fit_transform(mat)).set_index(df_multidim.index)
-fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-ax2.scatter(df4[0], df4[1])
-for label, x, y in zip(df4.index, df4[0], df4[1]):
-    ax2.annotate(
-        label,
-        xy = (x, y), xytext = (-20, 20),
-        textcoords = 'offset points', ha = 'right', va = 'bottom',
-        #bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.grid(1)
-ax2.set_title("TSNE for server-to-client, client-to-server, and no-blocking for all subcats")
-fig2.savefig(currFolder + "tsne_countries_all_cols")
-fig2.show()
-
-mat = df_multidim2.as_matrix()
-df4 = pd.DataFrame(pca.fit_transform(mat)).set_index(df_multidim.index)
-fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-ax2.scatter(df4[0], df4[1])
-for label, x, y in zip(df4.index, df4[0], df4[1]):
-    ax2.annotate(
-        label,
-        xy = (x, y), xytext = (-20, 20),
-        textcoords = 'offset points', ha = 'right', va = 'bottom',
-        #bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.grid(1)
-ax2.set_title("PCA for server-to-client, client-to-server, and no-blocking for all subcats")
-fig2.savefig(currFolder + "pca_countries_all_cols")
-#fig2.show()
-#plt.close()
-
-
-# ### This doesn't work due to nans
-
-# In[109]:
-
-mat = df_multidim3.as_matrix()
-df4 = pd.DataFrame(tsne.fit_transform(mat)).set_index(df_multidim.index)
-fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-ax2.scatter(df4[0], df4[1])
-for label, x, y in zip(df4.index, df4[0], df4[1]):
-    ax2.annotate(
-        label,
-        xy = (x, y), xytext = (-20, 20),
-        textcoords = 'offset points', ha = 'right', va = 'bottom',
-        #bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.grid(1)
-ax2.set_title("TSNE for ratio(server-to-client/total), and no-blocking for all subcats")
-fig2.savefig(currFolder + "tsne_countries_ratios")
-fig2.show()
-
-mat = df_multidim3.as_matrix()
-df4 = pd.DataFrame(pca.fit_transform(mat)).set_index(df_multidim.index)
-fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-ax2.scatter(df4[0], df4[1])
-for label, x, y in zip(df4.index, df4[0], df4[1]):
-    ax2.annotate(
-        label,
-        xy = (x, y), xytext = (-20, 20),
-        textcoords = 'offset points', ha = 'right', va = 'bottom',
-        #bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.grid(1)
-ax2.set_title("PCA for ratio(server-to-client/total), and no-blocking  for all subcats")
-fig2.savefig(currFolder + "pca_countries_ratios")
-fig2.show()
-
-
-# In[110]:
-
-#subcat = 'adult'
-
-for subcat in df_censorship.subcat.unique():
-    df = df_filtered[df_filtered['subcat']==subcat].set_index('country')[['case1','case2','case3']]
-    mat = df.as_matrix()
-    df4 = pd.DataFrame(pca.fit_transform(mat)).set_index(df.index)
-
-    model = 'pca'
-    fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-    ax2.scatter(df4[0], df4[1])
-    for label, x, y in zip(df4.index, df4[0], df4[1]):
-        ax2.annotate(
-            label,
-            xy = (x, y), xytext = (-20, 20),
-            textcoords = 'offset points', ha = 'right', va = 'bottom',
-            bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-            arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-    ax2.set_title(model + ' ' + subcat + ' case: 1,2,3')
-    ax2.grid(1)
-    fig2.savefig(RESULTS + "subcat/" + model + '-' + subcat)
-
-    model = 'tsne'
-    fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-    ax2.scatter(df4[0], df4[1])
-    for label, x, y in zip(df4.index, df4[0], df4[1]):
-        ax2.annotate(
-            label,
-            xy = (x, y), xytext = (-20, 20),
-            textcoords = 'offset points', ha = 'right', va = 'bottom',
-            bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-            arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-    ax2.set_title(model + ' ' + subcat + ' case: 1,2,3')
-    ax2.grid(1)
-    fig2.savefig(RESULTS + "subcat/" + model + '-' + subcat)
-
-    plt.close()
-#df_multidim = df.pivot(index='country', columns='subcat')
-
-
-# In[111]:
-
-df_censorship.head()
-
-
-# In[112]:
-
-df_global = df_censorship.groupby('subcat')[['1','2','3', 'total']].sum()
-df_global['1'] = df_global['1']/df_global['total']
-df_global['2'] = df_global['2']/df_global['total']
-df_global['3'] = df_global['3']/df_global['total']
-df_global = df_global[['1','2','3']]
-
-
-# ## GLOBAL - ignore country
-
-# In[113]:
-
-mat = df_global.as_matrix()
-
-model = 'pca'
-df4 = pd.DataFrame(pca.fit_transform(mat)).set_index(df_global.index)
-fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-ax2.scatter(df4[0], df4[1])
-for label, x, y in zip(df4.index, df4[0], df4[1]):
-    ax2.annotate(
-        label,
-        xy = (x, y), xytext = (-20, 20),
-        textcoords = 'offset points', ha = 'right', va = 'bottom',
-        bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.grid(1)
-ax2.set_title(model + '-global-subcat')
-fig2.savefig(RESULTS + model + '-global-subcat')
-
-model = 'tsne'
-df4 = pd.DataFrame(tsne.fit_transform(mat)).set_index(df_global.index)
-fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-ax2.scatter(df4[0], df4[1])
-for label, x, y in zip(df4.index, df4[0], df4[1]):
-    ax2.annotate(
-        label,
-        xy = (x, y), xytext = (-20, 20),
-        textcoords = 'offset points', ha = 'right', va = 'bottom',
-        bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.grid(1)
-ax2.set_title(model + '-global-subcat')
-fig2.savefig(RESULTS + model + '-global-subcat')
-
-
-# # SCATTER PLOTS PER SUBCAT
-
-# In[115]:
-
-#subcat = 'adult'
-for subcat in df_censorship.subcat.unique():
-    df4 = df_filtered[df_filtered['subcat']==subcat].set_index('country')[['case1','case3']]
-    if subcat == 'kids_and_teen':
-        subcat = 'kids'
-    model = 'scatter'
-    fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-    ax2.scatter(df4['case1'], df4['case3'])
-    for label, x, y in zip(df4.index, df4['case1'], df4['case3']):
-        ax2.annotate(
-            label,
-            xy = (x, y), xytext = (-20, 20),
-            textcoords = 'offset points', ha = 'right', va = 'bottom',
-            bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-            arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-    ax2.set_title(model + ' ' + subcat + ' TCP/IP blocking case 1 vs case 3')
-    ax2.grid(1)
-    ax2.set_xlabel('server-to-client-drop') #case1
-    ax2.set_ylabel('client-to-server-drop') #case3
-    fig2.savefig(RESULTS + "subcat/" + model + '-' + subcat)
-    plt.close()
-
-
-# In[116]:
-
-from itertools import cycle
-tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
-             (44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),
-             (148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),
-             (227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
-             (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]
-
-# Scale the RGB values to the [0, 1] range, which is the format matplotlib accepts.
-for i in range(len(tableau20)):
-    r, g, b = tableau20[i]
-    tableau20[i] = (r / 255., g / 255., b / 255.)
-
-col=cycle(tableau20)
-mark=cycle(['o','*','v','d','s','^'])
-
-fig2, ax2 = plt.subplots(1,1, figsize=(7,7))
-
-#subcat = 'adult'
-for subcat in df_censorship.subcat.unique():
-    df4 = df_filtered[df_filtered['subcat']==subcat].set_index('country')[['case1','case3', 'case2']]
-    if subcat == 'kids_and_teen':
-        subcat = 'kids'
-    model = 'scatter'
-
-    ax2.scatter(df4['case1'], df4['case3'], c=col.next(), marker=mark.next(),
-                s=df4['case2']*50, label=subcat, alpha=0.5, edgecolor=None)
-    #for label, x, y in zip(df4.index, df4['case1'], df4['case3']):
-    #    ax2.annotate(
-    #        label,
-    #        xy = (x, y), xytext = (-20, 20),
-    #        textcoords = 'offset points', ha = 'right', va = 'bottom',
-    #        bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-    #        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.set_title(model + ' ' + subcat + ' TCP/IP blocking case 1 vs case 3')
-ax2.set_xlabel('server-to-client-drop') #case1
-ax2.set_ylabel('client-to-server-drop') #case3
-#ax2.set_xscale('log')
-#ax2.set_yscale('log')
-ax2.grid(1)
-ax2.legend(loc='best')
-fig2.savefig(RESULTS + model + '-global-density-by-subcat')
-
-
-# In[119]:
-
-#df_filtered['case1/case13'] = df_filtered['case1']/(df_filtered['case3']+df_filtered['case1'])
-df_filtered.head()
-
-
-# In[124]:
-
-tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
-             (44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),
-             (148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),
-             (227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
-             (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]
-
-# Scale the RGB values to the [0, 1] range, which is the format matplotlib accepts.
-for i in range(len(tableau20)):
-    r, g, b = tableau20[i]
-    tableau20[i] = (r / 255., g / 255., b / 255.)
-
-col=cycle(tableau20)
-mark=cycle(['o','*','v','d','s','^'])
-
-fig2, ax2 = plt.subplots(1,1, figsize=(10,10))
-
-#subcat = 'adult'
-for subcat in df_censorship.subcat.unique():
-    df4 = df_filtered[df_filtered['subcat']==subcat].set_index('country')[['case13','case2','case1/case13']]
-    if subcat == 'kids_and_teen':
-        subcat = 'kids'
-    model = 'scatter'
-
-    ax2.scatter(df4['case13'], df4['case1/case13'], c=col.next(), marker=mark.next(),
-                s=df4['case2']*50, label=subcat, alpha=0.5, edgecolor=None)
-    #for label, x, y in zip(df4.index, df4['case1'], df4['case3']):
-    #    ax2.annotate(
-    #        label,
-    #        xy = (x, y), xytext = (-20, 20),
-    #        textcoords = 'offset points', ha = 'right', va = 'bottom',
-    #        bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-    #        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.set_title(model + ' ' + subcat )
-ax2.set_ylabel('server-to-client/total-tcp-ip-censorship')+ ' case(1+3) vs case1/case(1+3)'
-ax2.set_xlabel('total-tcp-ip-censorship')
-#ax2.set_xscale('log')
-#ax2.set_yscale('log')
-ax2.grid(1)
-ax2.legend(loc='best', prop={'size':12})
-fig2.savefig(RESULTS + model + '-global-density-by-subcat-ratios')
-
-
-# In[127]:
-
-from itertools import cycle
-tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
-             (44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),
-             (148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),
-             (227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
-             (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]
-
-# Scale the RGB values to the [0, 1] range, which is the format matplotlib accepts.
-for i in range(len(tableau20)):
-    r, g, b = tableau20[i]
-    tableau20[i] = (r / 255., g / 255., b / 255.)
-
-col=cycle(tableau20)
-mark=cycle(['o','*','v','d','s','^'])
-
-fig2, ax2 = plt.subplots(1,1, figsize=(7,7))
-
-#subcat = 'adult'
-for subcat in df_censorship.subcat.unique():
-    df4 = df_filtered[df_filtered['subcat']==subcat].set_index('country')[['case1','case3', 'case2']]
-    if subcat == 'kids_and_teen':
-        subcat = 'kids'
-    model = 'scatter'
-
-    ax2.scatter(df4['case1'], df4['case3'], c=col.next(), marker=mark.next(),
-                s=df4['case2']*50, label=subcat, alpha=0.5, edgecolor=None)
-    #for label, x, y in zip(df4.index, df4['case1'], df4['case3']):
-    #    ax2.annotate(
-    #        label,
-    #        xy = (x, y), xytext = (-20, 20),
-    #        textcoords = 'offset points', ha = 'right', va = 'bottom',
-    #        bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
-    #        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-ax2.set_title(model + ' ' + subcat + ' case1 vs case3')
-
-ax2.set_xlabel('server-to-client-dropped')
-ax2.set_ylabel('client-to-server-dropped')
-#ax2.set_xscale('log')
-#ax2.set_yscale('log')
-ax2.grid(1)
-ax2.legend(loc='best', prop={'size':12})
-fig2.savefig(RESULTS + model + '-global-density-by-subcat')
-
-
-# # COSINE SIMILARTY - TODO
-
-# In[131]:
-
-from scipy.spatial.distance import cosine
-df_censorship.head()
-#df_multidim = df_filtered.pivot(index='case', columns='subcat')
-#df_filtered.pivot()
-#df_multidim.corr()
-
+print "DONE"
