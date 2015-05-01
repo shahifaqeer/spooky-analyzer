@@ -6,3 +6,5 @@ Asia,as
 South_America,sa
 Europe,eu
 North_America,na
+Eastern_Europe,ee
+Western_Europe,we
