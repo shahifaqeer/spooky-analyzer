@@ -25,7 +25,6 @@ GS,South Georgia and the South Sandwich Islands,gs,,
 HM,Heard Island and McDonald Islands,hm,,
 IO,British Indian Ocean Territory,io,,
 KI,Kiribati,ki,,
-KY,Cayman Islands,ky,,
 MF,Saint Martin,mf,,
 MH,Marshall Islands,mh,,
 MP,Northern Mariana Islands,mp,,
@@ -106,6 +105,38 @@ SK,Slovakia,sk,eu,Europe
 SM,San Marino,sm,eu,Europe
 UA,Ukraine,ua,eu,Europe
 VA,Holy See (Vatican City State),va,eu,Europe
+AD,Andorra,ad,we,Western_Europe
+AT,Austria,at,we,Western_Europe
+AX,Aland Islands,ax,we,Western_Europe
+BE,Belgium,be,we,Western_Europe
+CH,Switzerland,ch,we,Western_Europe
+CY,Cyprus,cy,we,Western_Europe
+DE,Germany,de,we,Western_Europe
+DK,Denmark,dk,we,Western_Europe
+ES,Spain,es,we,Western_Europe
+FI,Finland,fi,we,Western_Europe
+FO,Faroe Islands,fo,we,Western_Europe
+FR,France,fr,we,Western_Europe
+GB,United Kingdom,gb,we,Western_Europe
+GG,Guernsey,gg,we,Western_Europe
+GI,Gibraltar,gi,we,Western_Europe
+GL,Greenland,gl,we,Western_Europe
+GR,Greece,gr,we,Western_Europe
+IE,Ireland,ie,we,Western_Europe
+IM,Isle of Man,im,we,Western_Europe
+IS,Iceland,is,we,Western_Europe
+IT,Italy,it,we,Western_Europe
+JE,Jersey,je,we,Western_Europe
+LI,Liechtenstein,li,we,Western_Europe
+LU,Luxembourg,lu,we,Western_Europe
+MC,Monaco,mc,we,Western_Europe
+MT,Malta,mt,we,Western_Europe
+NL,Netherlands,nl,we,Western_Europe
+NO,Norway,no,we,Western_Europe
+PT,Portugal,pt,we,Western_Europe
+SE,Sweden,se,we,Western_Europe
+SM,San Marino,sm,we,Western_Europe
+VA,Holy See (Vatican City State),va,we,Western_Europe
 AE,United Arab Emirates,ae,me,Middle_East
 AF,Afghanistan,af,me,Middle_East
 BH,Bahrain,bh,me,Middle_East
@@ -208,6 +239,7 @@ HN,Honduras,hn,la,Latin_America
 HT,Haiti,ht,la,Latin_America
 JM,Jamaica,jm,la,Latin_America
 KN,Saint Kitts and Nevis,kn,la,Latin_America
+KY,Cayman Islands,ky,la,Latin_America
 LC,Saint Lucia,lc,la,Latin_America
 MX,Mexico,mx,la,Latin_America
 NI,Nicaragua,ni,la,Latin_America
@@ -221,6 +253,27 @@ TT,Trinidad and Tobago,tt,la,Latin_America
 UY,Uruguay,uy,la,Latin_America
 VC,Saint Vincent and the Grenadines,vc,la,Latin_America
 VE,Venezuela,ve,la,Latin_America
+AL,Albania,al,ee,Eastern_Europe
+BA,Bosnia and Herzegovina,ba,ee,Eastern_Europe
+BG,Bulgaria,bg,ee,Eastern_Europe
+BY,Belarus,by,ee,Eastern_Europe
+CZ,Czech Republic,cz,ee,Eastern_Europe
+EE,Estonia,ee,ee,Eastern_Europe
+HR,Croatia,hr,ee,Eastern_Europe
+HU,Hungary,hu,ee,Eastern_Europe
+LT,Lithuania,lt,ee,Eastern_Europe
+LV,Latvia,lv,ee,Eastern_Europe
+MD,"Moldova, Republic of",md,ee,Eastern_Europe
+ME,Montenegro,me,ee,Eastern_Europe
+MK,Macedonia,mk,ee,Eastern_Europe
+PL,Poland,pl,ee,Eastern_Europe
+RO,Romania,ro,ee,Eastern_Europe
+RS,Serbia,rs,ee,Eastern_Europe
+RU,Russian Federation,ru,ee,Eastern_Europe
+SI,Slovenia,si,ee,Eastern_Europe
+SK,Slovakia,sk,ee,Eastern_Europe
+UA,Ukraine,ua,ee,Eastern_Europe
+,,xk,ee,Eastern_Europe
 AO,Angola,ao,af,Africa
 BF,Burkina Faso,bf,af,Africa
 BI,Burundi,bi,af,Africa

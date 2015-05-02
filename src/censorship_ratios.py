@@ -29,6 +29,50 @@ def get_ratios(dfin, GROUP=0):
         df_count['case3'] = df_count[3]/df_count['tot']
     return df_count
 
+def get_censorship(df_val, GROUP_INDEX='country', GROUP_COLUMN='domain', dimension='censorship'):
+    """
+    input:
+        full dataframe with sIP, domain, country, region, case, port [for count]
+        groupby GROUP1 (indices) + GROUP2 (columns).
+        dimension = usually censorship = 1 - case2ratio. Other possibilities = 'case1', 1, 'err', 'tot', etc.
+
+    GROUP1 is expected to be geographic (country/region). GROUP2 is expected to be server of interest (website/subcat)
+    possible groups: country, domain; country, subcat (use df_disjoint); region, domain; region, subcat;
+
+    output: df [ index = group1, columns=group2 ] [dimension]
+    """
+    censorship = df_val.groupby([GROUP_INDEX, GROUP_COLUMN, 'case'])['port'].count().unstack().fillna(0)
+    censorship = get_ratios(censorship)
+
+    # ignore GROUP_INDEX: NO COUNTRY/REGION
+    global_censorship = df_val.groupby([GROUP_COLUMN, 'case'])['port'].count().unstack().fillna(0)
+    global_censorship = get_ratios(global_censorship)
+
+    # ignore GROUP_COLUMN: NO DOMAIN/SUBCAT
+    overall_censorship = df_val.groupby([GROUP_INDEX, 'case'])['port'].count().unstack().fillna(0)
+    overall_censorship = get_ratios(overall_censorship)
+
+    if dimension == 'censorship':
+        censor_country = (1 - censorship['case2']).unstack()
+        censor_global = (1 - global_censorship['case2'])
+        censor_overall = (1 - overall_censorship['case2'])
+    else:
+        # dimension can be err, tot, case1, case2, case3, 1, 2, 3, 4, 0 apart from censorship
+        censor_country = censorship[dimension].unstack()
+        censor_global = global_censorship[dimension]
+        censor_overall = overall_censorship[dimension])
+    else:
+
+    # COLUMNS ARE COUNTRIES
+    censor_country['global'] = censor_global
+
+    # INDEX IS COUNTRY COLUMNS ARE DOMAINS
+    censor_domain = censor_country.T
+    censor_domain['overall'] = censor_overall
+    #censor_country= censor_country.reset_index()
+    return censor_overall
+
+
 def get_censorship_by_country_sIP_subcat(df_val, dimension='censorship'):
     """
     groupby sIP subcat + country. Must use disjoint to duplicate measurements
