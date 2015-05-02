@@ -44,33 +44,34 @@ def get_censorship(df_val, GROUP_INDEX='country', GROUP_COLUMN='domain', dimensi
     censorship = df_val.groupby([GROUP_INDEX, GROUP_COLUMN, 'case'])['port'].count().unstack().fillna(0)
     censorship = get_ratios(censorship)
 
-    # ignore GROUP_INDEX: NO COUNTRY/REGION
-    global_censorship = df_val.groupby([GROUP_COLUMN, 'case'])['port'].count().unstack().fillna(0)
+    # ignore GROUP_COLUMNS: NO DOMAIN, GROUP_INDEX will be INDEX as COUNTRY/REGION
+    global_censorship = df_val.groupby([GROUP_INDEX, 'case'])['port'].count().unstack().fillna(0)
     global_censorship = get_ratios(global_censorship)
 
-    # ignore GROUP_COLUMN: NO DOMAIN/SUBCAT
-    overall_censorship = df_val.groupby([GROUP_INDEX, 'case'])['port'].count().unstack().fillna(0)
+    # ignore GROUP_INDEX: NO COUNTRY, GROUP_COLUMN will be INDEX as DOMAIN/SUBCAT
+    overall_censorship = df_val.groupby([GROUP_COLUMN, 'case'])['port'].count().unstack().fillna(0)
     overall_censorship = get_ratios(overall_censorship)
 
     if dimension == 'censorship':
-        censor_country = (1 - censorship['case2']).unstack()
+        censor_domain = (1 - censorship['case2']).unstack()
         censor_global = (1 - global_censorship['case2'])
         censor_overall = (1 - overall_censorship['case2'])
     else:
         # dimension can be err, tot, case1, case2, case3, 1, 2, 3, 4, 0 apart from censorship
-        censor_country = censorship[dimension].unstack()
+        censor_domain = censorship[dimension].unstack()
         censor_global = global_censorship[dimension]
         censor_overall = overall_censorship[dimension]
 
-    # COLUMNS ARE COUNTRIES
-    censor_country['global'] = censor_global
-
     # INDEX IS COUNTRY COLUMNS ARE DOMAINS
-    censor_domain = censor_country.T
-    censor_domain['overall'] = censor_overall
-    #censor_country= censor_country.reset_index()
-    return censor_overall
+    censor_domain['overall'] = censor_global
 
+    # COLUMNS ARE COUNTRIES INDEX ARE DOMAINS
+    censor_country = censor_domain.T
+    censor_country['global'] = censor_overall
+    #censor_country= censor_country.reset_index()
+
+    # RETURN.ix[COUNTRIES, DOMAINS]
+    return censor_country.T
 
 def get_censorship_by_country_sIP_subcat(df_val, dimension='censorship'):
     """
