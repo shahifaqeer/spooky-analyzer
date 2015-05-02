@@ -60,8 +60,7 @@ def get_censorship(df_val, GROUP_INDEX='country', GROUP_COLUMN='domain', dimensi
         # dimension can be err, tot, case1, case2, case3, 1, 2, 3, 4, 0 apart from censorship
         censor_country = censorship[dimension].unstack()
         censor_global = global_censorship[dimension]
-        censor_overall = overall_censorship[dimension])
-    else:
+        censor_overall = overall_censorship[dimension]
 
     # COLUMNS ARE COUNTRIES
     censor_country['global'] = censor_global
