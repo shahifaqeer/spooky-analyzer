@@ -3,7 +3,7 @@
 data*/
 results/
 old_ipynb/
-nmap/
+nmap*/
 
 *.swp
 *.Rhistory
