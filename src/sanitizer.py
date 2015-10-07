@@ -102,7 +102,7 @@ def sanitize_converge_data(df_san):
     try:
         sIP_server = pd.read_csv(const.CONSTDATAPATH + "Servers_IMC.txt")
     except:
-        print "Please put Servers_IMC.txt in " + const.CONSTDATAPATH
+        print "ERROR: Please put Servers_IMC.txt in " + const.CONSTDATAPATH
 
     convert_dic2 = {"k1":float, "k2": float}
 
