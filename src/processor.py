@@ -92,12 +92,13 @@ def get_each_case(df, OUTNULL=False):
     mydata = defaultdict(list)
 
     for ix, row in df.iterrows():
-        case, pvalue, intervention = detect_case(row['gIP'], row['sIP'], row['diff_list'], row['ts'], None,
+        case, pvalue0, pvalue1, intervention = detect_case(row['gIP'], row['sIP'], row['diff_list'], row['ts'], None,
                 const.CENSORPLANET_INTERVENTION, True)
 
         mydata['index'].append(ix)
         mydata['case'].append(case)
-        mydata['pvalue'].append(pvalue)
+        mydata['pvalue0'].append(pvalue0)
+        mydata['pvalue1'].append(pvalue1)
         mydata['intervention'].append(intervention)
 
     return pd.DataFrame(mydata).set_index('index')
