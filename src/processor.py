@@ -94,12 +94,17 @@ def get_each_case(df, OUTNULL=False):
     for ix, row in df.iterrows():
         case, pvalue0, pvalue1, intervention, aos, order, interventions, null_interventions = detect_case(row['gIP'], row['sIP'], row['diff_list'], row['ts'], None,
                 const.CENSORPLANET_INTERVENTION, True)
+>>>>>>> master
 
         mydata['index'].append(ix)
         mydata['case'].append(case)
         mydata['pvalue0'].append(pvalue0)
         mydata['pvalue1'].append(pvalue1)
         mydata['intervention'].append(intervention)
+        mydata['aos'].append(aos)
+        mydata['order'].append(order)
+        mydata['interventions'].append(interventions)
+        mydata['null_interventions'].append(null_interventions)
 
     return pd.DataFrame(mydata).set_index('index')
 
@@ -111,7 +116,7 @@ def mp_case_detection_per_df(files):
     print "LOAD " + files
     df = pd.read_pickle(files)
     df_out = get_each_case(df, True)
-    print "DONE + SAVE " + part
+    #print "DONE + SAVE " + part
     df_out.to_pickle(const.DETECTFOLDER+"case_detected_"+part+".pkl")
 
     # delete df otherwise becomes super slow
@@ -197,5 +202,5 @@ if __name__ == "__main__":
     dataframe_splitter(df3, STEP=1000)
     del df3
 
-    #parallel_case_detection()
+    parallel_case_detection()
     join_case_with_data()

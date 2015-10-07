@@ -35,11 +35,12 @@ def detect_case(gIP,sIP,diffList,ts,error_case,INTERVENTION,DEBUG=False):
         else:
             case = 0
         if DEBUG: print gIP,sIP,case,ir
+
         return(case,ir.pvalues[0],ir.pvalues[1],ir.intervention, ir.aos, ir.order, ir.interventions, ir.null_interventions)
     except Exception:
         if DEBUG:print gIP,sIP, ts, "ERROR in detect case ARMA",diffList
         case = 4
-        return(case,None,None)
+        return(case,None,None,None,None,None,None,None)
 
 if __name__=="__main__":
     print detect_case(gIP,sIP,diffList,ts,None,INTERVENTION,True)
