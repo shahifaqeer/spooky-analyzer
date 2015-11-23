@@ -69,7 +69,7 @@ def load_and_remove_errors(saveas="cond_pass_basic.pkl"):
 
     filepath = const.CONSTDATAPATH + const.fname
 
-    temp = "gIP,sIP,port,ipids,diff_list,ts,k1,k2,retransmit_times,NotGlobal,NotEnough,NotEnoughRetrans, date"
+    temp = "gIP,sIP,port,ipids,diff_list,ts,k1,k2,retransmit_times,NotGlobal,NotEnough,NotEnoughRetrans,date,jump,sample,window"
     header_row = temp.split(",")
     print "Find file in "+ filepath
     df_all = pd.read_csv(filepath, delimiter="|", names=header_row)
@@ -139,19 +139,18 @@ def sanitize_converge_data(df_san):
 
 def sanitize_semi_finalize(df2):
 
-    df_redo = df2[ (df2["diff_p1"]<10) | (df2["diff_p2"]<10) ]
+    df_redo = df2[ (df2["diff_p1"] < const.IPID_MIN_RESPONSES) | (df2["diff_p2"] < const.IPID_MIN_RESPONSES) ]
 
     # SAVE sets to redo due to low ipid in const.DATAPATH
-    df_redo[["sIP", "gIP", "country", "domain", "subcat", "diff_p1", "diff_p2"]].to_csv(const.DATAPATH + "low_ipid_er_redo.csv")
+    df_redo.to_csv(const.DATAPATH + "low_ipid_er_redo.csv")
     df_redo.to_pickle(const.DATAPATH + "sanitize/low_ipid_er_redo.pkl")
 
     # semi-finalized
-    df = df2[ ~ ( (df2["diff_p1"]<10) | (df2["diff_p2"]<10) ) ]
+    df = df2[ ~ ( (df2["diff_p1"] < const.IPID_MIN_RESPONSES) | (df2["diff_p2"] < const.IPID_MIN_RESPONSES) ) ]
 
     # SAVE TO const.DATAPATH: pkl and csv
+    df.to_csv( const.DATAPATH + "ready_for_R.csv")
     df.to_pickle(const.DATAPATH + "ready_for_R.pkl")
-    df[["gIP", "sIP", "port", "ipids", "ts", "k1", "k2", "country",
-        "domain", "subcat", "diff_list", "retransmit_times"]].to_csv( const.DATAPATH + "ready_for_R.csv")
     return df
 
 ###################################################################################################
