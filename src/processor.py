@@ -56,7 +56,7 @@ def load_dataframe(filename):
 # MAIN FUNCTIONS
 ############################################################
 # Splitter
-def dataframe_splitter(df3, STEP=1000):
+def dataframe_splitter(df3, STEP):
     """
     input: dataframe with sanitized ipids
     output: splits of STEP=1000 by default
@@ -66,6 +66,7 @@ def dataframe_splitter(df3, STEP=1000):
         os.makedirs(const.SPLITFOLDER)
 
     part = 0
+    print "Length of df3 = ", len(df3)
     for split_start in xrange(0, len(df3), STEP):
         print part, split_start, split_start + STEP
 

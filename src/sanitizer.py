@@ -99,39 +99,37 @@ def sanitize_converge_data(df_san):
     Save
     """
 
-    try:
-        sIP_server = pd.read_csv(const.CONSTDATAPATH + "Servers_IMC.txt")
-    except:
-        print "ERROR: Please put Servers_IMC.txt in " + const.CONSTDATAPATH
+    #try:
+    #    sIP_server = pd.read_csv(const.CONSTDATAPATH + "Servers_IMC.txt")
+    #except:
+    #    print "ERROR: Please put Servers_IMC.txt in " + const.CONSTDATAPATH
 
     convert_dic2 = {"k1":float, "k2": float}
 
     if len(df_san) > 0:
         print "loaded cond_pass_basic dataframe: sanitize and convert"
 
-    # read csv and convert columns
-    df_conv = df_san[["ipids", "ts", "diff_list", "retransmit_times"]].applymap(split_int)
+    df_san['ipids'] = df_san['ipids'].apply(split_int)
+    df_san['ts'] = df_san['ts'].apply(split_int)
+    df_san['diff_list'] = df_san['diff_list'].apply(split_int)
+    df_san['retransmit_times'] =df_san['retransmit_times'].apply(split_int)
 
-    # copy rest of the columns
-    for colname in ["gIP", "sIP", "port", "k1", "k2", "country"]:
-        df_conv[colname] = df_san[colname]
-
-    del df_san
 
     # get country and first value in "ts"
-    df_conv["first_ts"] = df_conv["ts"].apply(lambda x: x[0])
+    df_san["first_ts"] = df_san["ts"].apply(lambda x: x[0])
 
     # if country was not added earlier...
-    if "country" not in df_conv.columns:
-        df_conv["country"] = df_conv["gIP"].apply(lambda x: get_country(x))
+    if "country" not in df_san.columns:
+        df_san["country"] = df_san["gIP"].apply(lambda x: get_country(x))
 
     # get non-None values in
-    for LIM, gx in df_conv.groupby("first_ts"):
-        df_conv["diff_p1"] = gx["diff_list"].apply(lambda x: count_not_none( x[:LIM] ))
-        df_conv["diff_p2"] = gx["diff_list"].apply(lambda x: count_not_none( x[LIM:] ))
+    for LIM, gx in df_san.groupby("first_ts"):
+        df_san["diff_p1"] = gx["diff_list"].apply(lambda x: count_not_none( x[:LIM] ))
+        df_san["diff_p2"] = gx["diff_list"].apply(lambda x: count_not_none( x[LIM:] ))
 
     # merge with server, subcat list
-    df2 = df_conv.merge(sIP_server, on='sIP', how='outer')
+    #df2 = df_conv.merge(sIP_server, on='sIP', how='outer')
+    df2 = df_san
 
     # SAVE TO const.DATAPATH
     df2.to_pickle(const.DATAPATH + "sanitize/full_merged_ipid_sanitized.pkl")
