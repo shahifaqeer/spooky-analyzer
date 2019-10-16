@@ -1,4 +1,4 @@
-# roya
+# Censor Planet - Spooky Scan
 
 Needs a data/ folder containing all initial files (server IPs, GeoCity database, initial CSVs)
 
